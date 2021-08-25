@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<vector<int>>v;
+    void solve(vector<vector<int>>&adj,int start,int end,vector<int>a)
+    {
+        if(start==end)
+        {
+            v.push_back(a);
+        }
+        for(auto x:adj[start])
+        {
+            a.push_back(x);
+            solve(adj,x,end,a);
+            a.pop_back();
+        }
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>>adj(graph.size());
+        vector<int>a;
+        a.push_back(0);
+        for(int i=0;i<graph.size();i++)
+        {
+            for(int j=0;j<graph[i].size();j++)
+            {
+                adj[i].push_back(graph[i][j]);
+            }
+        }
+        solve(adj,0,graph.size()-1,a);
+        return v;
+    }
+};

@@ -1,0 +1,32 @@
+class Solution {
+public:    
+    int ans=0;
+    void dfs(int i,int j,int m,int n,vector<vector<int>>& grid,int &c)
+    {
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]==0) return;
+         grid[i][j]=0;
+         c++;
+        dfs(i+1,j,m,n,grid,c);
+        dfs(i-1,j,m,n,grid,c);
+        dfs(i,j+1,m,n,grid,c);
+        dfs(i,j-1,m,n,grid,c);
+    }
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        if(grid.size()==0) return 0;
+        int m=grid.size();
+        int n=grid[0].size();
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    int c=0;
+                    dfs(i,j,m,n,grid,c);
+                    ans=max(ans,c);
+                }
+            }
+        }
+        return ans; 
+    }
+};

@@ -1,0 +1,69 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void filler(TreeNode *root,map<int,vector<int>>&m,map<int,bool>&vis)
+    {
+        if(!root)
+        {
+            return;
+        }
+        vis[root->val]=false;
+        if(root->left)
+        {
+            m[root->val].push_back(root->left->val);
+            m[root->left->val].push_back(root->val);
+        }
+        if(root->right)
+        {
+            m[root->val].push_back(root->right->val);
+            m[root->right->val].push_back(root->val);
+        }
+        filler(root->left,m,vis);
+        filler(root->right,m,vis);
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
+        if(K==0)
+        {
+            return {target->val};
+        }
+        map<int,vector<int>>m;
+        map<int,bool>vis;
+        filler(root,m,vis);
+        vector<int>v;
+        queue<int>q;
+        q.push(target->val);
+        int level=1;
+        while(!q.empty())
+        {
+            int len=q.size();
+            while(len)
+            {
+                int node=q.front();
+                q.pop();
+                vis[node]=true;
+                for(auto it:m[node])
+                {
+                    if(!vis[it])
+                    {
+                        if(level==K)
+                        {
+                            v.push_back(it);
+                        }
+                        q.push(it);
+                    }
+                }
+                len--;
+            }
+            level++;
+        }
+        return v;
+    }
+};

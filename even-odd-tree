@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) {
+        queue<TreeNode*>q;
+        q.push(root);
+        int depth=0;
+        while(!q.empty())
+        {
+            int n=q.size(),prev=q.front()->val,now;
+            for(int i=0;i<n;i++)
+            {
+                TreeNode* p=q.front();
+                q.pop();
+                now=p->val;
+                if(depth%2==0)
+                {
+                    if((now%2==0)||(now<=prev)&&i!=0)
+                        return false;
+                }
+                else
+                {
+                    if((now%2==1)||(now>=prev)&&i!=0)
+                        return false;
+                }
+                prev=now;
+                if(p->left)
+                    q.push(p->left);
+                if(p->right)
+                    q.push(p->right);
+            }depth++;
+        }return true;
+    }
+};

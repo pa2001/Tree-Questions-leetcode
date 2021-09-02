@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isValidSerialization(string s) {
+        if (s[0]=='#') 
+            return s.size()==1;
+        int nodes=2,l=s.size();
+        for (int i=1;i<l;i++) {
+            if (s[i]==',') {
+                if (s[i+1]=='#') {
+                    nodes--;
+                    if (!nodes) 
+                        return i==l-2;
+                }
+                else 
+                    nodes++;
+            }
+        }
+        return nodes==0;
+    }
+};
